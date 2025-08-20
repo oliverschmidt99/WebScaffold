@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hilfeseite</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Startseite</a></li>
+                <li><a href="seite2.html">Seite 2</a></li>
+                <li><a href="seite3.html">Hilfe</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>Hilfe & FAQ</h1>
+            <p>Hier findest du Antworten auf häufig gestellte Fragen. Klicke auf eine Frage, um die Antwort zu sehen.
+            </p>
+
+            <div class="accordion-container">
+
+                <button class="accordion-button">Wie ändere ich den Titel der Seite?</button>
+                <div class="accordion-content">
+                    <p>Öffne die entsprechende HTML-Datei (z.B. <code>index.html</code>) und ändere den Text innerhalb
+                        des <code>&lt;title&gt;</code>-Tags im Kopfbereich (<code>&lt;head&gt;</code>) sowie die
+                        <code>&lt;h1&gt;</code>-Überschrift im Hauptbereich (<code>&lt;main&gt;</code>).
+                    </p>
+                </div>
+
+                <button class="accordion-button">Wo kann ich die Farben anpassen?</button>
+                <div class="accordion-content">
+                    <p>Alle Farben und Stile werden in der Datei <code>assets/css/style.css</code> definiert. Suche nach
+                        den entsprechenden CSS-Selektoren (z.B. <code>header</code> oder <code>button</code>) und ändere
+                        die Farbwerte (z.B. <code>background</code> oder <code>color</code>).</p>
+                </div>
+
+                <button class="accordion-button">Wie füge ich eine neue Seite hinzu?</button>
+                <div class="accordion-content">
+                    <p>Kopiere eine bestehende Seite (z.B. <code>seite2.html</code>), benenne sie um (z.B.
+                        <code>seite4.html</code>) und passe den Inhalt an. Vergiss nicht, den Link zur neuen Seite in
+                        der Navigation (im <code>&lt;header&gt;</code>-Bereich) in allen HTML-Dateien hinzuzufügen.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Dein Name</p>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
