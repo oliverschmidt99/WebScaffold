@@ -1,0 +1,30 @@
+{
+  "categories": [
+    {
+      "name": "Hersteller",
+      "tags": [
+        {
+          "name": "310_CELSA",
+          "color": "#A0C4FF"
+        },
+        {
+          "color": "#FFD6A5",
+          "name": "320_MBS"
+        }
+      ]
+    },
+    {
+      "name": "Strom",
+      "tags": [
+        {
+          "color": "#FFADAD",
+          "name": "600 A"
+        },
+        {
+          "color": "#FFD6A5",
+          "name": "800 A"
+        }
+      ]
+    }
+  ]
+}

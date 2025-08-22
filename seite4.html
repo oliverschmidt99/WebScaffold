@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unterseite</title>
+    <title>Kachel-Navigation</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" href="assets/img/logo_rolf-janssen_2024.svg" type="image/svg+xml">
 </head>
@@ -36,8 +36,29 @@
     </header>
     <main>
         <div class="container">
-            <h1>Titel der Unterseite</h1>
-            <p>Hier steht der Inhalt für die zweite Seite.</p>
+            <h1>Kachel-Navigation (Reiter)</h1>
+            <p>Klicke auf die Kacheln, um den Inhalt zu wechseln.</p>
+            <div class="card-container" id="kachel-nav">
+                <div class="card active" data-target="kachel-inhalt-1">
+                    <h3>Reiter 1</h3>
+                    <p>Zeige den ersten Inhalt.</p>
+                </div>
+                <div class="card" data-target="kachel-inhalt-2">
+                    <h3>Reiter 2</h3>
+                    <p>Zeige den zweiten Inhalt.</p>
+                </div>
+            </div>
+            <hr>
+            <div id="kachel-sektionen">
+                <div id="kachel-inhalt-1" class="config-section active">
+                    <h2>Inhalt von Reiter 1</h2>
+                    <p>Dies ist der Inhalt für die erste Kachel.</p>
+                </div>
+                <div id="kachel-inhalt-2" class="config-section">
+                    <h2>Inhalt von Reiter 2</h2>
+                    <p>Dieser Inhalt gehört zur zweiten Kachel.</p>
+                </div>
+            </div>
         </div>
     </main>
     <footer>
