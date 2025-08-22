@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dein Projekt{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo_rolf-janssen_2024.svg') }}" type="image/svg+xml">
+</head>
+
+<body>
+    <header>
+        <div class="header-left">
+            <img src="{{ url_for('static', filename='img/logo_rolf-janssen_2024.svg') }}" alt="Logo" id="header-logo">
+            <h1>Dein Projekt</h1>
+        </div>
+        <nav id="main-nav">
+            <div class="nav-item">
+                <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' else '' }}">Home</a>
+            </div>
+            <div class="nav-item has-dropdown">
+                <a href="{{ url_for('content_page') }}"
+                    class="{{ 'active' if request.endpoint in ['content_page', 'faq_page', 'tabs_page'] else '' }}">Seiten</a>
+                <div class="dropdown-menu">
+                    <a href="{{ url_for('content_page') }}">Inhaltsseite</a>
+                    <a href="{{ url_for('faq_page') }}">Hilfe/FAQ</a>
+                    <a href="{{ url_for('tabs_page') }}">Kacheln</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('settings') }}"
+                    class="{{ 'active' if request.endpoint == 'settings' else '' }}">Einstellungen</a>
+            </div>
+            <div class="nav-slider"></div>
+        </nav>
+        <div class="header-right"></div>
+    </header>
+    <main>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <footer>
+        <p>&copy; Oliver Schmidt</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tags.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

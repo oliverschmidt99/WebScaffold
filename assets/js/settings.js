@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Nur ausführen, wenn wir auf der Einstellungsseite sind
   if (document.getElementById("categories-container")) {
     initializeSettings();
   }
@@ -18,40 +17,52 @@ const pastelColors = [
 ];
 
 async function initializeSettings() {
-  await loadTags();
-  currentTagsData = JSON.parse(JSON.stringify(allTagsData)); // Tiefe Kopie
+  await loadTags(); // Lädt von der API
+  currentTagsData = JSON.parse(JSON.stringify(allTagsData));
   renderCategories();
 
   document
     .getElementById("add-category-form")
     .addEventListener("submit", handleAddCategory);
+
   document
     .getElementById("edit-tag-form")
     .addEventListener("submit", handleSaveTag);
   document
     .getElementById("edit-tag-modal-cancel")
-    .addEventListener("click", () => {
-      document.getElementById("edit-tag-modal").style.display = "none";
-    });
+    .addEventListener("click", () => closeModal("edit-tag-modal"));
+
+  document
+    .getElementById("edit-category-form")
+    .addEventListener("submit", handleSaveCategory);
+  document
+    .getElementById("edit-category-modal-cancel")
+    .addEventListener("click", () => closeModal("edit-category-modal"));
+}
+
+function openModal(modalId) {
+  document.getElementById(modalId).style.display = "flex";
+}
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = "none";
 }
 
 async function saveAllTags() {
   try {
-    // Diese Funktion würde normalerweise die Daten an einen Server senden.
-    // Für dieses reine Frontend-Beispiel simulieren wir das nur.
-    console.log(
-      "Speichere Daten (simuliert):",
-      JSON.stringify(currentTagsData, null, 2)
-    );
-    alert(
-      "Diese Aktion ist in diesem reinen Frontend-Template nur simuliert.\nIn einer echten Anwendung würden die Daten jetzt an einen Server gesendet und die 'tags.json' aktualisiert."
-    );
+    const response = await fetch("/api/tags", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(currentTagsData),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "Fehler beim Speichern");
 
-    // Um die Änderungen client-seitig sofort sichtbar zu machen:
-    allTagsData = JSON.parse(JSON.stringify(currentTagsData));
-    renderCategories(); // Neu rendern
+    await loadTags();
+    currentTagsData = JSON.parse(JSON.stringify(allTagsData));
+    renderCategories();
   } catch (error) {
     console.error("Fehler beim Speichern der Tags:", error);
+    alert("Speichern fehlgeschlagen: " + error.message);
   }
 }
 
@@ -87,14 +98,28 @@ function renderCategories() {
       )
       .join("");
 
+    let colorPaletteHtml = pastelColors
+      .map(
+        (color, colorIndex) => `
+        <div class="color-swatch ${
+          colorIndex === 0 ? "selected" : ""
+        }" style="background-color: ${color};" data-color="${color}"></div>
+    `
+      )
+      .join("");
+
     categoryElement.innerHTML = `
         <div class="category-header">
             <h3>${category.name}</h3>
-            <button class="delete-category-btn danger" data-category="${category.name}">Kategorie löschen</button>
+            <div class="actions">
+                <button class="edit-category-btn" data-category="${category.name}">✎</button>
+                <button class="delete-category-btn" data-category="${category.name}">×</button>
+            </div>
         </div>
         <div class="tags-list">${tagsHtml}</div>
         <form class="add-tag-form" data-category="${category.name}">
             <input type="text" placeholder="Neuer Tag-Name..." required>
+            <div class="color-palette">${colorPaletteHtml}</div>
             <button type="submit">+ Tag</button>
         </form>`;
     container.appendChild(categoryElement);
@@ -107,6 +132,9 @@ function addEventListenersToCategories() {
     .querySelectorAll(".delete-category-btn")
     .forEach((btn) => btn.addEventListener("click", handleDeleteCategory));
   document
+    .querySelectorAll(".edit-category-btn")
+    .forEach((btn) => btn.addEventListener("click", handleEditCategory));
+  document
     .querySelectorAll(".add-tag-form")
     .forEach((form) => form.addEventListener("submit", handleAddTag));
   document
@@ -115,6 +143,15 @@ function addEventListenersToCategories() {
   document
     .querySelectorAll(".delete-tag-btn")
     .forEach((btn) => btn.addEventListener("click", handleDeleteTag));
+
+  document.querySelectorAll(".color-palette").forEach((palette) => {
+    palette.addEventListener("click", (e) => {
+      if (e.target.classList.contains("color-swatch")) {
+        palette.querySelector(".selected")?.classList.remove("selected");
+        e.target.classList.add("selected");
+      }
+    });
+  });
 }
 
 function handleAddCategory(event) {
@@ -134,7 +171,7 @@ function handleAddCategory(event) {
 }
 
 function handleDeleteCategory(event) {
-  const categoryName = event.target.dataset.category;
+  const categoryName = event.target.closest("button").dataset.category;
   if (
     confirm(`Soll die Kategorie "${categoryName}" wirklich gelöscht werden?`)
   ) {
@@ -145,17 +182,51 @@ function handleDeleteCategory(event) {
   }
 }
 
+function handleEditCategory(event) {
+  const categoryName = event.target.closest("button").dataset.category;
+  document.getElementById("edit-category-original-name").value = categoryName;
+  document.getElementById("edit-category-name").value = categoryName;
+  openModal("edit-category-modal");
+}
+
+function handleSaveCategory(event) {
+  event.preventDefault();
+  const originalName = document.getElementById(
+    "edit-category-original-name"
+  ).value;
+  const newName = document.getElementById("edit-category-name").value.trim();
+  const category = currentTagsData.categories.find(
+    (c) => c.name === originalName
+  );
+
+  if (newName && category) {
+    if (
+      newName !== originalName &&
+      currentTagsData.categories.some((c) => c.name === newName)
+    ) {
+      alert("Dieser Kategoriename existiert bereits.");
+      return;
+    }
+    category.name = newName;
+    saveAllTags();
+    closeModal("edit-category-modal");
+  }
+}
+
 function handleAddTag(event) {
   event.preventDefault();
-  const categoryName = event.target.dataset.category;
-  const input = event.target.querySelector("input");
+  const form = event.target;
+  const categoryName = form.dataset.category;
+  const input = form.querySelector("input");
   const tagName = input.value.trim();
+  const selectedColor = form.querySelector(".color-swatch.selected").dataset
+    .color;
   const category = currentTagsData.categories.find(
     (c) => c.name === categoryName
   );
+
   if (tagName && category && !category.tags.find((t) => t.name === tagName)) {
-    const colorIndex = (category.tags.length || 0) % pastelColors.length;
-    category.tags.push({ name: tagName, color: pastelColors[colorIndex] });
+    category.tags.push({ name: tagName, color: selectedColor });
     saveAllTags();
     input.value = "";
   } else {
@@ -164,8 +235,9 @@ function handleAddTag(event) {
 }
 
 function handleEditTag(event) {
-  const categoryName = event.target.dataset.category;
-  const tagName = event.target.dataset.tag;
+  const button = event.target.closest("button");
+  const categoryName = button.dataset.category;
+  const tagName = button.dataset.tag;
   const category = currentTagsData.categories.find(
     (c) => c.name === categoryName
   );
@@ -177,22 +249,16 @@ function handleEditTag(event) {
     document.getElementById("edit-tag-name").value = tag.name;
 
     const palette = document.getElementById("edit-tag-color-palette");
-    palette.innerHTML = "";
-    pastelColors.forEach((color) => {
-      const swatch = document.createElement("div");
-      swatch.className = "color-swatch";
-      swatch.style.backgroundColor = color;
-      swatch.dataset.color = color;
-      if (color === tag.color) {
-        swatch.classList.add("selected");
-      }
-      swatch.addEventListener("click", () => {
-        palette.querySelector(".selected")?.classList.remove("selected");
-        swatch.classList.add("selected");
-      });
-      palette.appendChild(swatch);
-    });
-    document.getElementById("edit-tag-modal").style.display = "flex";
+    palette.innerHTML = pastelColors
+      .map(
+        (color) => `
+        <div class="color-swatch ${
+          color === tag.color ? "selected" : ""
+        }" style="background-color: ${color};" data-color="${color}"></div>
+    `
+      )
+      .join("");
+    openModal("edit-tag-modal");
   }
 }
 
@@ -212,15 +278,23 @@ function handleSaveTag(event) {
     : -1;
 
   if (tagIndex > -1) {
+    if (
+      newName !== originalName &&
+      category.tags.some((t) => t.name === newName)
+    ) {
+      alert("Dieser Tag-Name existiert bereits in der Kategorie.");
+      return;
+    }
     category.tags[tagIndex] = { name: newName, color: selectedColor };
     saveAllTags();
-    document.getElementById("edit-tag-modal").style.display = "none";
+    closeModal("edit-tag-modal");
   }
 }
 
 function handleDeleteTag(event) {
-  const categoryName = event.target.dataset.category;
-  const tagName = event.target.dataset.tag;
+  const button = event.target.closest("button");
+  const categoryName = button.dataset.category;
+  const tagName = button.dataset.tag;
   if (confirm(`Soll der Tag "${tagName}" wirklich gelöscht werden?`)) {
     const category = currentTagsData.categories.find(
       (c) => c.name === categoryName
