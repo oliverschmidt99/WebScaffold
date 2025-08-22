@@ -7,6 +7,7 @@
     <aside class="settings-nav">
         <ul>
             <li><a href="#" class="active" data-target="tags-settings">Tag-Verwaltung</a></li>
+            <li><a href="#" data-target="theme-settings">Design</a></li>
         </ul>
     </aside>
     <main class="settings-content">
@@ -21,7 +22,19 @@
                 </form>
             </div>
             <hr>
-            <div id="categories-container"></div>
+            <div id="categories-container">
+            </div>
+        </div>
+
+        <div id="theme-settings" class="settings-section">
+            <h2>Design-Einstellungen</h2>
+            <div class="theme-switcher">
+                <label for="theme-toggle">Dark Mode</label>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
         </div>
     </main>
 </div>

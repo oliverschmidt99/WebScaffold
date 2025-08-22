@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="de">
 
 <head>
@@ -7,13 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Dein Projekt{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="icon" href="{{ url_for('static', filename='img/logo_rolf-janssen_2024.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.svg') }}" type="image/svg+xml">
+    <script>
+        // Lade das Theme sofort, um ein Flackern zu vermeiden
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
 </head>
 
 <body>
     <header>
         <div class="header-left">
-            <img src="{{ url_for('static', filename='img/logo_rolf-janssen_2024.svg') }}" alt="Logo" id="header-logo">
+            <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Logo" id="header-logo">
             <h1>Dein Projekt</h1>
         </div>
         <nav id="main-nav">
@@ -45,8 +49,8 @@
     <footer>
         <p>&copy; Oliver Schmidt</p>
     </footer>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/tags.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 

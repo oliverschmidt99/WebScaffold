@@ -17,27 +17,53 @@ const pastelColors = [
 ];
 
 async function initializeSettings() {
-  await loadTags(); // Lädt von der API
+  await loadTags();
   currentTagsData = JSON.parse(JSON.stringify(allTagsData));
   renderCategories();
 
+  // Event Listeners für Forms und Modals
   document
     .getElementById("add-category-form")
     .addEventListener("submit", handleAddCategory);
-
   document
     .getElementById("edit-tag-form")
     .addEventListener("submit", handleSaveTag);
   document
     .getElementById("edit-tag-modal-cancel")
     .addEventListener("click", () => closeModal("edit-tag-modal"));
-
   document
     .getElementById("edit-category-form")
     .addEventListener("submit", handleSaveCategory);
   document
     .getElementById("edit-category-modal-cancel")
     .addEventListener("click", () => closeModal("edit-category-modal"));
+
+  // Logik für den Dark Mode Schalter
+  const themeToggle = document.getElementById("theme-toggle");
+  themeToggle.checked =
+    document.documentElement.getAttribute("data-theme") === "dark";
+  themeToggle.addEventListener("change", () => {
+    applyTheme(themeToggle.checked ? "dark" : "light");
+  });
+
+  // KORREKTUR: Event Listeners für die Reiter-Navigation hinzugefügt
+  document.querySelectorAll(".settings-nav a").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      // Entferne 'active' von allen Links und Sektionen
+      document
+        .querySelector(".settings-nav a.active")
+        .classList.remove("active");
+      document
+        .querySelectorAll(".settings-section")
+        .forEach((s) => s.classList.remove("active"));
+
+      // Füge 'active' zum geklickten Link und zur Ziel-Sektion hinzu
+      e.target.classList.add("active");
+      document.getElementById(e.target.dataset.target).classList.add("active");
+    });
+  });
 }
 
 function openModal(modalId) {

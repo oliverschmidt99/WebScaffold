@@ -1,41 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM fully loaded and parsed. main.js is ready!");
+  // Theme anwenden, das im Head-Skript gesetzt wurde
+  const theme = document.documentElement.getAttribute("data-theme");
+  applyTheme(theme);
 
-  // --- Bestehender Code für den Beispiel-Button ---
-  const actionButton = document.getElementById("action-button");
-  if (actionButton) {
-    actionButton.addEventListener("click", () => {
+  handleNavSlider();
+
+  if (document.getElementById("action-button")) {
+    document.getElementById("action-button").addEventListener("click", () => {
       alert("Button wurde geklickt!");
     });
   }
 
-  // --- Bestehender Code für die aufklappbaren Bereiche (Akkordeon) ---
-  const accordionButtons = document.querySelectorAll(".accordion-button");
-  accordionButtons.forEach((button) => {
+  document.querySelectorAll(".accordion-button").forEach((button) => {
     button.addEventListener("click", () => {
       button.classList.toggle("active");
       const content = button.nextElementSibling;
-      if (button.classList.contains("active")) {
-        content.style.maxHeight = content.scrollHeight + "px";
-      } else {
-        content.style.maxHeight = null;
-      }
+      content.style.maxHeight = content.style.maxHeight
+        ? null
+        : content.scrollHeight + "px";
     });
   });
 
-  // --- Logik für den Navigations-Slider ---
-  handleNavSlider();
-
-  // --- Logik für die Kachel-Navigation auf seite4.html ---
   if (document.getElementById("kachel-nav")) {
     initializeCardNavigation("kachel-nav", "kachel-sektionen");
   }
 
-  // --- NEU: Logik für die Tag-Auswahl auf index.html ---
   if (document.getElementById("tags-selection")) {
     initializeTagSelection();
   }
 });
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+}
 
 function handleNavSlider() {
   const nav = document.getElementById("main-nav");
@@ -61,26 +59,31 @@ function initializeCardNavigation(navId, sectionContainerId) {
     card.addEventListener("click", () => {
       sections.forEach((s) => s.classList.remove("active"));
       cards.forEach((c) => c.classList.remove("active"));
-      const targetId = card.dataset.target;
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        targetElement.classList.add("active");
-      }
+      const targetElement = document.getElementById(card.dataset.target);
+      if (targetElement) targetElement.classList.add("active");
       card.classList.add("active");
     });
   });
 }
 
-// --- NEUE FUNKTIONEN FÜR TAGS ---
-
-let currentEditingTags = [];
+// --- TAG SELECTION LOGIC (for index.html) ---
+let currentSelectedTags = [];
 
 async function initializeTagSelection() {
-  await loadTags(); // Lädt die Daten aus tags.json
+  await loadTags();
 
-  document
-    .querySelector(".add-tags-btn")
-    .addEventListener("click", openTagModal);
+  const container = document.getElementById("tags-selection");
+  container.addEventListener("click", (e) => {
+    if (e.target.classList.contains("add-tags-btn")) {
+      openTagModal();
+    }
+    if (e.target.classList.contains("remove-tag")) {
+      const tagName = e.target.parentElement.dataset.tag;
+      currentSelectedTags = currentSelectedTags.filter((t) => t !== tagName);
+      updateSelectedTagsDisplay("tags-selection", currentSelectedTags);
+    }
+  });
+
   document
     .getElementById("modal-cancel-btn")
     .addEventListener("click", closeTagModal);
@@ -90,10 +93,12 @@ async function initializeTagSelection() {
   document
     .getElementById("tag-search-input")
     .addEventListener("input", filterTagsInModal);
+
+  updateSelectedTagsDisplay("tags-selection", []);
 }
 
 function openTagModal() {
-  renderTagsInModal(currentEditingTags);
+  renderTagsInModal(currentSelectedTags);
   document.getElementById("tag-modal").style.display = "flex";
 }
 
@@ -103,7 +108,7 @@ function closeTagModal() {
 }
 
 function saveTagsFromModal() {
-  updateSelectedTagsDisplay("tags-selection", currentEditingTags);
+  updateSelectedTagsDisplay("tags-selection", currentSelectedTags);
   closeTagModal();
 }
 
@@ -112,47 +117,45 @@ function renderTagsInModal(selectedTags = []) {
   mainListContainer.innerHTML = "";
 
   (allTagsData.categories || []).forEach((category) => {
-    let categoryHtml = `<div class="tag-group"><strong>${category.name}</strong>`;
-    (category.tags || []).forEach((tag) => {
-      categoryHtml += getTagBadge(tag.name);
-    });
-    categoryHtml += "</div>";
-    mainListContainer.innerHTML += categoryHtml;
+    let tagsHtml = (category.tags || [])
+      .map((tag) => getTagBadge(tag.name))
+      .join("");
+    if (tagsHtml) {
+      mainListContainer.innerHTML += `<div class="tag-group"><strong>${category.name}</strong><div>${tagsHtml}</div></div>`;
+    }
   });
 
   updateSelectedTagsDisplay("modal-selected-tags", selectedTags);
 
   mainListContainer.querySelectorAll(".tag-badge").forEach((badge) => {
-    const tagName = badge.textContent.trim();
+    const tagName = badge.dataset.tag;
     if (selectedTags.includes(tagName)) {
       badge.classList.add("selected");
     }
 
     badge.addEventListener("click", () => {
       badge.classList.toggle("selected");
-      if (currentEditingTags.includes(tagName)) {
-        currentEditingTags = currentEditingTags.filter((t) => t !== tagName);
+      if (currentSelectedTags.includes(tagName)) {
+        currentSelectedTags = currentSelectedTags.filter((t) => t !== tagName);
       } else {
-        currentEditingTags.push(tagName);
+        currentSelectedTags.push(tagName);
       }
-      updateSelectedTagsDisplay("modal-selected-tags", currentEditingTags);
+      updateSelectedTagsDisplay("modal-selected-tags", currentSelectedTags);
     });
   });
 }
 
 function updateSelectedTagsDisplay(containerId, tags) {
   const container = document.getElementById(containerId);
+  let buttonText = tags.length > 0 ? "+ Tags ändern" : "+ Tags hinzufügen";
+
   container.innerHTML = "";
   tags.forEach((tag) => {
-    container.innerHTML += getTagBadge(tag);
+    container.innerHTML += getTagBadge(tag, containerId === "tags-selection");
   });
 
   if (containerId === "tags-selection") {
-    container.innerHTML +=
-      '<button type="button" class="add-tags-btn">+ Tags ändern</button>';
-    container
-      .querySelector(".add-tags-btn")
-      .addEventListener("click", openTagModal);
+    container.innerHTML += `<button type="button" class="add-tags-btn">${buttonText}</button>`;
   }
 }
 
@@ -161,7 +164,7 @@ function filterTagsInModal() {
     .getElementById("tag-search-input")
     .value.toLowerCase();
   document.querySelectorAll("#modal-tag-list .tag-badge").forEach((badge) => {
-    badge.style.display = badge.textContent.toLowerCase().includes(filter)
+    badge.style.display = badge.dataset.tag.toLowerCase().includes(filter)
       ? "inline-flex"
       : "none";
   });

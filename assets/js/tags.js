@@ -2,20 +2,18 @@ let allTagsData = {};
 
 async function loadTags() {
   try {
-    // Stellt sicher, dass der Browser die Datei nicht aus dem Cache lädt
-    const response = await fetch("tags.json?v=" + new Date().getTime());
+    const response = await fetch("/api/tags");
     if (!response.ok) {
       throw new Error("Netzwerk-Antwort war nicht ok.");
     }
     allTagsData = await response.json();
   } catch (error) {
     console.error("Fehler beim Laden der Tags:", error);
-    // Fallback, falls die Datei nicht geladen werden kann
     allTagsData = { categories: [] };
   }
 }
 
-function getTagBadge(tagName) {
+function getTagBadge(tagName, removable = false) {
   let tagInfo = null;
   if (allTagsData.categories) {
     for (const category of allTagsData.categories) {
@@ -27,16 +25,20 @@ function getTagBadge(tagName) {
     }
   }
 
+  const removeBtn = removable
+    ? `<span class="remove-tag" title="Tag entfernen">&times;</span>`
+    : "";
+  const tagDataAttr = `data-tag="${tagName}"`;
+
   if (tagInfo) {
     const textColor = getTextColor(tagInfo.color);
-    return `<span class="tag-badge" style="background-color: ${tagInfo.color}; color: ${textColor};">${tagName}</span>`;
+    return `<span class="tag-badge" ${tagDataAttr} style="background-color: ${tagInfo.color}; color: ${textColor};">${tagName}${removeBtn}</span>`;
   }
-
-  return `<span class="tag-badge" style="background-color: #e9ecef; color: #495057;">${tagName}</span>`;
+  return `<span class="tag-badge" ${tagDataAttr} style="background-color: #e9ecef; color: #495057;">${tagName}${removeBtn}</span>`;
 }
 
 function getTextColor(hexcolor) {
-  if (!hexcolor) return "#000000";
+  if (!hexcolor || hexcolor.length < 7) return "#000000";
   const r = parseInt(hexcolor.substr(1, 2), 16);
   const g = parseInt(hexcolor.substr(3, 2), 16);
   const b = parseInt(hexcolor.substr(5, 2), 16);

@@ -1,8 +1,9 @@
 import json
 import os
-from flask import Flask, render_template, request, jsonify, send_from_directory
+from flask import Flask, render_template, request, jsonify
 
-app = Flask(__name__, static_folder="assets")
+# HIER IST DIE KORREKTUR: static_url_path wird explizit gesetzt.
+app = Flask(__name__, static_folder="assets", static_url_path="/assets")
 
 # Pfad zur Tag-Datei
 TAGS_FILE = "tags.json"
@@ -16,7 +17,9 @@ def load_tags_data():
         with open(TAGS_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
-        return {"categories": []}
+        default_tags = {"categories": []}
+        save_tags_data(default_tags)
+        return default_tags
 
 
 def save_tags_data(data):
@@ -33,17 +36,17 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/content")
+@app.route("/content_page")
 def content_page():
     return render_template("content_page.html")
 
 
-@app.route("/faq")
+@app.route("/faq_page")
 def faq_page():
     return render_template("faq_page.html")
 
 
-@app.route("/tabs")
+@app.route("/tabs_page")
 def tabs_page():
     return render_template("tabs_page.html")
 

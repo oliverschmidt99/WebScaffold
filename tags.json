@@ -2,7 +2,12 @@
     "categories": [
         {
             "name": "Test",
-            "tags": []
+            "tags": [
+                {
+                    "name": "test",
+                    "color": "#A0C4FF"
+                }
+            ]
         }
     ]
 }
