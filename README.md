@@ -1,7 +1,3 @@
-Perfekt 👍 Dann passe ich das `.md` so an, dass es direkt zu deinem Repo passt.
-
-Hier ist die aktualisierte Version:
-
 ````markdown
 # Dynamisches Frontend Starter Kit
 
@@ -164,7 +160,4 @@ Dieses Template enthält mehrere wiederverwendbare UI-Komponenten, die du einfac
 - **Beschreibung:** Ein Schalter auf der Einstellungsseite, der das Farbschema der gesamten Anwendung ändert. Die Auswahl wird im Browser des Benutzers gespeichert.
 - **Dateien:** `templates/settings.html`, `assets/css/style.css` (via CSS-Variablen), `assets/js/main.js`, `assets/js/settings.js`
 
-```
-
-👉 Soll ich dir daraus direkt eine `README.md` bauen und so formatieren, dass du sie 1:1 in dein Repo legen kannst?
 ```
