@@ -1,11 +1,11 @@
+// static/js/tags.js
 let allTagsData = {};
 
 async function loadTags() {
+  if (Object.keys(allTagsData).length > 0) return;
   try {
     const response = await fetch("/api/tags");
-    if (!response.ok) {
-      throw new Error("Netzwerk-Antwort war nicht ok.");
-    }
+    if (!response.ok) throw new Error("Netzwerk-Antwort war nicht ok.");
     allTagsData = await response.json();
   } catch (error) {
     console.error("Fehler beim Laden der Tags:", error);
