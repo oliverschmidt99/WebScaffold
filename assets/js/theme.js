@@ -1,15 +1,1 @@
-// assets/js/theme.js
-
-/**
- * Wendet das gespeicherte oder bevorzugte Theme an.
- * @param {string} theme - Das zu setzende Theme ('dark' oder 'light').
- */
-function applyTheme(theme) {
-  // Setzt das 'data-theme'-Attribut auf dem Wurzelelement (<html>)
-  document.documentElement.setAttribute("data-theme", theme);
-}
-
-// Stellt sicher, dass das Theme direkt beim Laden der Seite angewendet wird,
-// um ein Flackern zu vermeiden.
-const savedTheme = localStorage.getItem("theme") || "light";
-applyTheme(savedTheme);
+(function(){function e(e){document.documentElement.setAttribute("data-theme",e)}const t=localStorage.getItem("theme")||"light";e(t),document.addEventListener("DOMContentLoaded",()=>{const o=document.getElementById("theme-toggle");o&&(o.checked="dark"===t,o.addEventListener("change",()=>{const t=o.checked?"dark":"light";localStorage.setItem("theme",t),e(t)}))})})();
