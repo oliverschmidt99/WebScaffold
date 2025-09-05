@@ -1,3 +1,4 @@
+/* assets/css/style.css */
 @import url('components.css');
 
 :root {
@@ -10,6 +11,7 @@
     --border-color: #dee2e6;
     --shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
 html[data-theme='dark'] {
     --background-color: #212529;
     --text-color: #e9ecef;
@@ -17,6 +19,7 @@ html[data-theme='dark'] {
     --border-color: #495057;
     --secondary-color: #495057;
 }
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
@@ -26,9 +29,32 @@ body {
     color: var(--text-color);
     transition: background-color 0.2s, color 0.2s;
 }
-main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
-header { background-color: var(--card-bg); padding: 0 2rem; text-align: center; box-shadow: var(--shadow); border-bottom: 1px solid var(--border-color); height: 60px; display: flex; justify-content: center; align-items: center; }
-footer { text-align: center; padding: 2rem; margin-top: 2rem; background-color: var(--card-bg); border-top: 1px solid var(--border-color); }
+
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    background-color: var(--card-bg);
+    padding: 0 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border-bottom: 1px solid var(--border-color);
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 2rem;
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+}
 
 /* --- NAVIGATION ÜBERARBEITET --- */
 nav ul {
@@ -55,16 +81,21 @@ nav ul li a {
     transition: background-color 0.2s, color 0.2s;
     white-space: nowrap; /* Verhindert Zeilenumbruch */
 }
-nav ul li a:hover, nav ul li a.active {
+
+nav ul li a:hover,
+nav ul li a.active {
     background-color: var(--primary-color);
     color: white;
 }
+
 nav ul li a img {
     width: 18px;
     height: 18px;
     flex-shrink: 0; /* Verhindert, dass Icons schrumpfen */
 }
-nav ul li a:hover img, nav ul li a.active img {
+
+nav ul li a:hover img,
+nav ul li a.active img {
     filter: brightness(0) invert(1);
 }
 
@@ -87,24 +118,63 @@ nav ul li a:hover img, nav ul li a.active img {
     transition: opacity 0.2s ease, transform 0.2s ease;
     pointer-events: none;
 }
+
 .dropdown-menu li a {
     width: 100%;
     box-sizing: border-box;
 }
 
-/* Dropdown beim Hovern oder per JS-Klasse anzeigen */
-nav ul li.has-dropdown:hover .dropdown-menu,
-nav ul li.has-dropdown.dropdown--active .dropdown-menu {
+/* Dropdown beim Hovern über das gesamte Listenelement anzeigen */
+nav ul li.has-dropdown:hover .dropdown-menu {
     display: block;
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
 }
 
-.container { background-color: var(--card-bg); padding: 2rem; border-radius: 8px; box-shadow: var(--shadow); }
-h1, h2 { margin-top: 0; }
-.accordion-container { margin-top: 1rem; }
-.accordion-button { background-color: var(--background-color); color: var(--text-color); cursor: pointer; padding: 1rem; width: 100%; border: none; border-top: 1px solid var(--border-color); text-align: left; outline: none; transition: background-color 0.2s; }
-.accordion-button.active, .accordion-button:hover { background-color: #e9ecef; }
-html[data-theme='dark'] .accordion-button.active, html[data-theme='dark'] .accordion-button:hover { background-color: #343a40; }
-.accordion-content { padding: 0 1rem; background-color: var(--card-bg); max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+.container {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+h1,
+h2 {
+    margin-top: 0;
+}
+
+.accordion-container {
+    margin-top: 1rem;
+}
+
+.accordion-button {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 1rem;
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    text-align: left;
+    outline: none;
+    transition: background-color 0.2s;
+}
+
+.accordion-button.active,
+.accordion-button:hover {
+    background-color: #e9ecef;
+}
+
+html[data-theme='dark'] .accordion-button.active,
+html[data-theme='dark'] .accordion-button:hover {
+    background-color: #343a40;
+}
+
+.accordion-content {
+    padding: 0 1rem;
+    background-color: var(--card-bg);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}

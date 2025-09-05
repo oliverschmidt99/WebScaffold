@@ -14,17 +14,29 @@
         }
 
         #sortable-list li {
+            /* Flexbox für die Ausrichtung von Icon und Text */
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
             padding: 15px;
             margin-bottom: 10px;
             background-color: var(--background-color);
             border: 1px solid var(--border-color);
             border-radius: 5px;
             cursor: grab;
+            /* Zeigt an, dass das Element greifbar ist */
         }
 
         .sortable-ghost {
             opacity: 0.4;
             background-color: #e3f2fd;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            color: var(--text-color);
+            /* Sorgt für Sichtbarkeit im Dark Mode */
         }
     </style>
 </head>
@@ -53,15 +65,33 @@
     <main class="container">
         <h1>Drag &amp; Drop</h1>
         <ul id="sortable-list">
-            <li>Element Alpha</li>
-            <li>Element Beta</li>
+            <li><img src="assets/icons/icon_drag_handle.svg" alt="Move" width="20" height="20"
+                    class="drag-handle">Element Alpha</li>
+            <li><img src="assets/icons/icon_drag_handle.svg" alt="Move" width="20" height="20"
+                    class="drag-handle">Element Beta</li>
+            <li><img src="assets/icons/icon_drag_handle.svg" alt="Move" width="20" height="20"
+                    class="drag-handle">Element Gamma</li>
         </ul>
     </main>
     <footer>
         <p>&copy; 2025 Dein Name</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="assets/js/theme.js"></script>
     <script src="assets/js/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sortableList = document.getElementById('sortable-list');
+            if (sortableList) {
+                new Sortable(sortableList, {
+                    animation: 150, // Dauer der Sortier-Animation in ms
+                    ghostClass: 'sortable-ghost', // CSS-Klasse für das Platzhalter-Element
+                    handle: '.drag-handle' // Definiert, dass nur das Icon zum Ziehen verwendet werden kann
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
