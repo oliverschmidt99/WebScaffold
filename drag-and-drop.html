@@ -1,1 +1,67 @@
-<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml"><title>Drag & Drop</title><link rel="stylesheet" href="assets/css/style.css"><style>#sortable-list{list-style:none;padding:0}#sortable-list li{display:flex;align-items:center;gap:1rem;padding:15px;margin-bottom:10px;background-color:var(--background-color);border:1px solid var(--border-color);border-radius:5px}.drag-handle{cursor:grab}</style></head><body><header><nav><ul><li><a href="index.html" class=""><img src="assets/icons/icon_home.svg" alt="Start"></a></li><li class="has-dropdown"><a href="examples.html" class=""><img src="assets/icons/icon_layers.svg" alt="Beispiele"> <span>Beispiele</span></a><ul class="dropdown-menu"><li><a href="example-subpage.html">Unterseite 1</a></li></ul></li><li><a href="settings.html" class=""><img src="assets/icons/icon_settings.svg" alt="Einstellungen"></a></li><li><a href="drag-and-drop.html" class="active"><img src="assets/icons/icon_drag_and_drop.svg" alt="Drag & Drop"></a></li></ul></nav></header><main class="container"><h1>Drag & Drop</h1><p>Verschiebe die Elemente mit dem Handle-Icon.</p><ul id="sortable-list"><li><img src="assets/icons/icon_drag_handle.svg" alt="Move" class="drag-handle"> Element Alpha</li><li><img src="assets/icons/icon_drag_handle.svg" alt="Move" class="drag-handle"> Element Beta</li><li><img src="assets/icons/icon_drag_handle.svg" alt="Move" class="drag-handle"> Element Gamma</li></ul></main><footer><p>&copy; 2025 Dein Name</p></footer><script src="assets/js/theme.js"></script><script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script><script>document.addEventListener("DOMContentLoaded",function(){new Sortable(document.getElementById("sortable-list"),{animation:150, handle: ".drag-handle"})});</script></body></html>
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+    <title>Drag &amp; Drop</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        #sortable-list {
+            list-style: none;
+            padding: 0
+        }
+
+        #sortable-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 5px
+        }
+
+        .drag-handle {
+            cursor: grab
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class=""><img src="assets/icons/icon_home.svg" alt="Start"></a></li>
+                <li class="has-dropdown"><a href="examples.html" class=""><img src="assets/icons/icon_layers.svg"
+                            alt="Beispiele"> <span>Beispiele</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="example-subpage.html">Unterseite 1</a></li>
+                    </ul>
+                </li>
+                <li><a href="settings.html" class=""><img src="assets/icons/icon_settings.svg" alt="Einstellungen"></a>
+                </li>
+                <li><a href="drag-and-drop.html" class="active"><img src="assets/icons/icon_drag_and_drop.svg"
+                            alt="Drag & Drop"> <span>Drag &amp; Drop</span></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <h1>Drag &amp; Drop</h1>
+        <p>Verschiebe die Elemente mit dem Handle-Icon.</p>
+        <ul id="sortable-list">
+            <li><img src="assets/icons/icon_drag_handle.svg" alt="Move" class="drag-handle"> Element Alpha</li>
+            <li><img src="assets/icons/icon_drag_handle.svg" alt="Move" class="drag-handle"> Element Beta</li>
+        </ul>
+    </main>
+    <footer>
+        <p>&copy; 2025 Dein Name</p>
+    </footer>
+    <script src="assets/js/theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () { new Sortable(document.getElementById("sortable-list"), { animation: 150, handle: ".drag-handle" }) });</script>
+</body>
+
+</html>

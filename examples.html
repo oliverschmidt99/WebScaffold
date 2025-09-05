@@ -1,73 +1,92 @@
-<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-<title>UI-Komponenten</title>
-<link rel="stylesheet" href="assets/css/style.css">
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+    <title>UI-Komponenten</title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
-<header><nav><ul><li><a href="index.html" class=""><img src="assets/icons/icon_home.svg" alt="Start"></a></li><li class="has-dropdown"><a href="examples.html" class="active"><img src="assets/icons/icon_layers.svg" alt="Beispiele"> <span>Beispiele</span></a><ul class="dropdown-menu"><li><a href="example-subpage.html">Unterseite 1</a></li></ul></li><li><a href="settings.html" class=""><img src="assets/icons/icon_settings.svg" alt="Einstellungen"></a></li><li><a href="drag-and-drop.html" class=""><img src="assets/icons/icon_drag_and_drop.svg" alt="Drag $NAV Drop"></a></li></ul></nav></header>
-<main class="container">
-    <h1>UI-Komponenten</h1>
-    <p>Hier ist eine Übersicht aller verfügbaren UI-Elemente in diesem Template.</p>
-
-    <div class="card">
-        <h2>Buttons</h2>
-        <p>Standard-Buttons für verschiedene Aktionen.</p>
-        <div class="button-group">
-            <button class="button">Primär</button>
-            <button class="button secondary">Sekundär</button>
-            <button class="button danger">Gefahr</button>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class=""><img src="assets/icons/icon_home.svg" alt="Start"></a></li>
+                <li class="has-dropdown"><a href="examples.html" class="active"><img src="assets/icons/icon_layers.svg"
+                            alt="Beispiele"> <span>Beispiele</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="example-subpage.html">Unterseite 1</a></li>
+                    </ul>
+                </li>
+                <li><a href="settings.html" class=""><img src="assets/icons/icon_settings.svg" alt="Einstellungen"></a>
+                </li>
+                <li><a href="drag-and-drop.html" class=""><img src="assets/icons/icon_drag_and_drop.svg"
+                            alt="Drag & Drop"> <span>Drag &amp; Drop</span></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <h1>UI-Komponenten</h1>
+        <p>Hier ist eine Übersicht aller verfügbaren UI-Elemente in diesem Template.</p>
+        <div class="card">
+            <h2>Buttons</h2>
+            <p>Standard-Buttons für verschiedene Aktionen.</p>
+            <div class="button-group">
+                <button type="button" class="button">Primär</button>
+                <button type="button" class="button secondary">Sekundär</button>
+                <button type="button" class="button danger">Gefahr</button>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Modal (Pop-up-Fenster)</h2>
+            <p>Ein modales Fenster, das über den Inhalt gelegt wird.</p>
+            <div class="button-group">
+                <button type="button" class="button" id="open-modal-btn">Modal öffnen</button>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Toasts (Benachrichtigungen)</h2>
+            <p>Kurze, selbst verschwindende Nachrichten am Bildschirmrand.</p>
+            <div class="button-group">
+                <button type="button" class="button" id="toast-success-btn">Erfolgs-Toast</button>
+                <button type="button" class="button" id="toast-error-btn">Fehler-Toast</button>
+                <button type="button" class="button" id="toast-info-btn">Info-Toast</button>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Akkordeon</h2>
+            <p>Auf- und zuklappbare Inhaltsbereiche.</p>
+            <div class="accordion-container">
+                <button type="button" class="accordion-button">
+                    <span>Bereich 1</span>
+                    <img src="assets/icons/icon_chevron_down.svg" alt="" class="icon-chevron">
+                </button>
+                <div class="accordion-content">
+                    <p>Dies ist der Inhalt des ersten Bereichs.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="demo-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Modaler Dialog</h3>
+                <button type="button" class="modal-close-btn" aria-label="Schließen">&times;</button>
+            </div>
+            <p>Du kannst das Fenster schließen, indem du auf das X, den Button unten oder außerhalb klickst.</p>
+            <div class="modal-actions">
+                <button type="button" class="button danger modal-close-btn">Schließen</button>
+            </div>
         </div>
     </div>
-
-    <div class="card">
-        <h2>Modal (Pop-up-Fenster)</h2>
-        <p>Ein modales Fenster, das über den Inhalt gelegt wird.</p>
-        <div class="button-group">
-            <button class="button" id="open-modal-btn">Modal öffnen</button>
-        </div>
-    </div>
-
-    <div class="card">
-        <h2>Toasts (Benachrichtigungen)</h2>
-        <p>Kurze, selbst verschwindende Nachrichten am Bildschirmrand.</p>
-        <div class="button-group">
-            <button class="button" id="toast-success-btn">Erfolgs-Toast</button>
-            <button class="button" id="toast-error-btn">Fehler-Toast</button>
-            <button class="button" id="toast-info-btn">Info-Toast</button>
-        </div>
-    </div>
-
-    <div class="card">
-        <h2>Akkordeon</h2>
-        <p>Auf- und zuklappbare Inhaltsbereiche.</p>
-        <div class="accordion-container">
-            <button type="button" class="accordion-button">
-                <span>Bereich 1</span>
-                <img src="assets/icons/icon_chevron_down.svg" alt="" class="icon-chevron">
-            </button>
-            <div class="accordion-content"><p>Dies ist der Inhalt des ersten Bereichs.</p></div>
-            <button type="button" class="accordion-button">
-                <span>Bereich 2</span>
-                <img src="assets/icons/icon_chevron_down.svg" alt="" class="icon-chevron">
-            </button>
-            <div class="accordion-content"><p>Dies ist der Inhalt des zweiten Bereichs.</p></div>
-        </div>
-    </div>
-</main>
-
-<div id="demo-modal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Modaler Dialog</h3>
-            <button class="modal-close-btn" aria-label="Schließen">&times;</button>
-        </div>
-        <p>Dies ist der Inhalt des Pop-up-Fensters. Du kannst es schließen, indem du auf das X, den Button unten oder außerhalb des Fensters klickst.</p>
-        <div class="modal-actions">
-            <button class="button secondary modal-close-btn">Schließen</button>
-        </div>
-    </div>
-</div>
-<div id="toast-container"></div>
-<footer><p>$FOOTERcopy; 2025 Dein Name</p></footer>
-<script src="assets/js/theme.js"></script><script src="assets/js/main.js"></script>
+    <div id="toast-container"></div>
+    <footer>
+        <p>&copy; 2025 Dein Name</p>
+    </footer>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
+
 </html>

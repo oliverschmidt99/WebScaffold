@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Accordion Logic
     document.querySelectorAll(".accordion-button").forEach(button => {
         button.addEventListener("click", () => {
             button.classList.toggle("active");
@@ -7,22 +6,18 @@ document.addEventListener("DOMContentLoaded", () => {
             content.style.maxHeight = button.classList.contains("active") ? content.scrollHeight + "px" : null;
         });
     });
-
-    // Modal Logic
     const modal = document.getElementById("demo-modal");
     const openModalBtn = document.getElementById("open-modal-btn");
-    const closeModalBtn = document.querySelector(".modal-close-btn");
-    if (modal && openModalBtn && closeModalBtn) {
+    const closeModalBtns = document.querySelectorAll(".modal-close-btn");
+    if (modal && openModalBtn && closeModalBtns.length > 0) {
         const openModal = () => modal.style.display = "flex";
         const closeModal = () => modal.style.display = "none";
         openModalBtn.addEventListener("click", openModal);
-        closeModalBtn.addEventListener("click", closeModal);
+        closeModalBtns.forEach(btn => btn.addEventListener("click", closeModal));
         window.addEventListener("click", (event) => {
             if (event.target === modal) closeModal();
         });
     }
-
-    // Toast Logic
     const toastContainer = document.getElementById("toast-container");
     function showToast(message, type = "info") {
         if (!toastContainer) return;
